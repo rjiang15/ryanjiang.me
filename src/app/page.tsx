@@ -13,6 +13,7 @@ export default function Home() {
                 width={160}
                 height={160}
                 className="avatarPhoto"
+                unoptimized
                 priority
               />
             </div>
