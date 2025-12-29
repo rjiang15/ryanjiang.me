@@ -1,26 +1,228 @@
 @import "tailwindcss";
 
+/* Colors from your spec */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --green: #b2f2bb;
+  --orange-dark: #fab005;
+  --orange-light: #ffd8a8;
+
+  --ink: #000000;
+  --paper: #ffffff;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  height: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+/* Layout frame */
+.pageWrap {
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.outerFrame {
+  max-width: 1200px;
+  margin: 0 auto;
+  border: 3px solid var(--ink);
+  border-radius: 22px;
+  background: var(--paper);
+  overflow: hidden;
+}
+
+/* Header */
+.headerShell {
+  border-bottom: 3px solid var(--ink);
+  background: var(--paper);
+  padding: 18px 18px;
+}
+
+.navRow {
+  display: flex;
+  gap: 34px;
+  justify-content: center;
+  align-items: center;
+}
+
+.navItem {
+  font-size: 26px;
+  line-height: 1;
+  text-decoration: none;
+  color: var(--ink);
+  padding: 6px 10px;
+  border-radius: 12px;
+}
+
+.navItem:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/* Content shell */
+.contentShell {
+  min-height: 640px;
+}
+
+/* Hero split */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  min-height: 640px;
+}
+
+.heroLeft {
+  background: var(--orange-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 38px 24px;
+}
+
+.heroRight {
+  background: var(--green);
+  padding: 64px 52px;
+}
+
+.heroTitle {
+  font-size: 64px;
+  line-height: 1;
+  margin: 0 0 36px 0;
+}
+
+.heroText {
+  font-size: 30px;
+  line-height: 1.35;
+  max-width: 720px;
+}
+
+.heroText p {
+  margin: 0 0 22px 0;
+}
+
+/* Profile card */
+.profileCard {
+  width: min(420px, 92%);
+  background: var(--orange-light);
+  border: 3px solid var(--ink);
+  border-radius: 26px;
+  padding: 40px 26px 34px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.avatarRing {
+  width: 220px;
+  height: 220px;
+  border-radius: 999px;
+  background: #bcdcff;
+  display: grid;
+  place-items: center;
+  border: 3px solid var(--ink);
+}
+
+.avatarInner {
+  width: 168px;
+  height: 168px;
+  border-radius: 999px;
+  background: var(--paper);
+  border: 3px solid var(--ink);
+  display: grid;
+  place-items: center;
+}
+
+.avatarSilhouette {
+  width: 112px;
+  height: 112px;
+  border-radius: 999px;
+  background: #1b1b1b;
+  position: relative;
+}
+
+.avatarSilhouette::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 62px;
+  transform: translateX(-50%);
+  width: 124px;
+  height: 68px;
+  border-radius: 26px;
+  background: #1b1b1b;
+}
+
+.profileName {
+  font-size: 44px;
+  line-height: 1;
+}
+
+.profileUnderline {
+  width: 160px;
+  height: 3px;
+  background: var(--ink);
+  border-radius: 999px;
+}
+
+.profileRole {
+  font-size: 30px;
+}
+
+/* Footer */
+.footerShell {
+  border-top: 3px solid var(--ink);
+  background: var(--paper);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.footerLeft {
+  font-size: 26px;
+}
+
+.footerRight {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.footerBtn {
+  text-decoration: none;
+  color: var(--ink);
+  font-size: 22px;
+  padding: 8px 14px;
+  border: 3px solid var(--ink);
+  border-radius: 12px;
+  background: var(--paper);
+}
+
+.footerBtn:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+  .heroRight {
+    padding: 44px 26px;
+  }
+  .heroTitle {
+    font-size: 52px;
+  }
+  .heroText {
+    font-size: 26px;
+  }
+  .navRow {
+    gap: 18px;
+    flex-wrap: wrap;
+  }
 }
