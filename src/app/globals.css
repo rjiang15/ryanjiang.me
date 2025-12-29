@@ -116,16 +116,6 @@ body {
   gap: 18px;
 }
 
-.avatarRing {
-  width: 220px;
-  height: 220px;
-  border-radius: 999px;
-  background: #bcdcff;
-  display: grid;
-  place-items: center;
-  border: 3px solid var(--ink);
-}
-
 .avatarInner {
   width: 168px;
   height: 168px;
@@ -134,26 +124,17 @@ body {
   border: 3px solid var(--ink);
   display: grid;
   place-items: center;
+  overflow: hidden; /* important: crops photo into a circle */
 }
 
-.avatarSilhouette {
-  width: 112px;
-  height: 112px;
+.avatarPhoto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* fills circle nicely */
+  object-position: center;
   border-radius: 999px;
-  background: #1b1b1b;
-  position: relative;
-}
 
-.avatarSilhouette::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 62px;
-  transform: translateX(-50%);
-  width: 124px;
-  height: 68px;
-  border-radius: 26px;
-  background: #1b1b1b;
+  transform: translateY(-60px);
 }
 
 .profileName {

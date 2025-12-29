@@ -1,11 +1,20 @@
+import Image from "next/image"
+
 export default function Home() {
   return (
     <main className="hero">
       <section className="heroLeft" aria-label="Profile card panel">
         <div className="profileCard">
-          <div className="avatarRing" aria-hidden="true">
-            <div className="avatarInner" aria-hidden="true">
-              <div className="avatarSilhouette" aria-hidden="true" />
+          <div className="avatarRing">
+            <div className="avatarInner">
+              <Image
+                src="/img/me.jpg"
+                alt="Ryan Jiang"
+                width={160}
+                height={160}
+                className="avatarPhoto"
+                priority
+              />
             </div>
           </div>
 
