@@ -1,0 +1,281 @@
+/* Page layout */
+.wrap {
+  height: 100%;
+  background: var(--orange-dark);
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* center flashcard vertically now that title is removed */
+}
+
+/* Nav buttons */
+.navBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 76px;
+  height: 76px;
+  border-radius: 999px;
+  border: 3px solid var(--ink);
+  background: var(--green);
+  font-size: 34px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  user-select: none;
+}
+
+.navBtn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.leftBtn {
+  left: 48px;
+}
+
+.rightBtn {
+  right: 48px;
+}
+
+/* Deck / stage */
+.stage {
+  /* make the stage roughly 60% of the viewport and center the card */
+  width: min(60vw, 900px);
+  height: min(60vh, 720px);
+  position: relative;
+
+  display: grid;
+  place-items: center;
+}
+
+/* Card container */
+.cardOuter {
+  /* fill the stage (stage now controls size) and provide perspective */
+  width: 100%;
+  height: 100%;
+  perspective: 1400px;
+  perspective-origin: center;
+
+  display: grid;
+  place-items: center;
+}
+
+.card {
+  /* card fills the outer container so size is stable */
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d; /* fix for WebKit browsers */
+  transform-origin: center center;       /* ensure rotation around center */
+  -webkit-transform-origin: center center;
+  transition: transform 520ms cubic-bezier(0.2, 0.9, 0.2, 1);
+  cursor: pointer;
+
+  will-change: transform;
+
+  /* slightly bigger (95%) and keep the vertical nudge */
+  transform: translateY(50px) scale(0.95);
+  -webkit-transform: translateY(50px) scale(0.95);
+}
+
+/* keep vendor-prefixed transform for flipped state */
+.cardFlipped {
+  /* preserve the scale and vertical offset when flipped */
+  transform: translateY(50px) scale(0.95) rotateX(180deg);
+  -webkit-transform: translateY(50px) scale(0.95) rotateX(180deg);
+}
+
+/* Wrapper for enter animations: base sizing + optional animation class */
+.enterWrap {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  /* hint the browser about upcoming transform/opacity changes to avoid layer jank */
+  will-change: transform, opacity;
+}
+
+/* small enter animations (optional) */
+.enterFromLeft { animation: enterLeft 420ms ease; }
+.enterFromRight { animation: enterRight 420ms ease; }
+
+@keyframes enterLeft {
+  from { transform: translateX(-18px); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+@keyframes enterRight {
+  from { transform: translateX(18px); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+
+.face {
+  position: absolute;
+  inset: 0;
+  border: 3px solid var(--ink);
+  border-radius: 26px;
+  background: var(--orange-light);
+  overflow: hidden;
+
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden; /* IMPORTANT */
+  transform: translateZ(0);            /* IMPORTANT */
+
+  /* ensure faces also rotate around their centers */
+  transform-origin: center center;
+  -webkit-transform-origin: center center;
+}
+
+/* Front: simple center text */
+.front {
+  display: grid;
+  place-items: center;
+  padding: 28px;
+}
+
+.frontText {
+  font-size: 44px;
+  text-align: center;
+  max-width: 80%;
+}
+
+/* Back: content layout */
+.back {
+  transform: rotateX(180deg);
+  padding: 28px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.backTop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.backTitle {
+  font-size: 34px;
+  margin: 0;
+  font-weight: 700;
+}
+
+.backDate {
+  font-size: 20px;
+  opacity: 0.85;
+  white-space: nowrap;
+}
+
+.backBlurb {
+  margin: 0;
+  font-size: 22px;
+  font-style: italic;
+  opacity: 0.95;
+  line-height: 1.35;
+}
+
+.bullets {
+  margin: 0;
+  padding-left: 28px;        /* left padding for marker space */
+  list-style-type: disc;     /* show bullets */
+  list-style-position: outside;
+  font-size: 22px;
+  line-height: 1.3;
+}
+
+/* small spacing between items (replaces gap) */
+.bullets li {
+  margin-bottom: 10px;
+}
+
+.backBottomRow {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* View button */
+.viewBtn {
+  background: var(--green);
+  border: 3px solid var(--ink);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 20px;
+  text-decoration: none;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.viewBtn:hover {
+  filter: brightness(0.98);
+}
+
+/* Tags (moved bottom-right like mock) */
+.tags {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background: var(--paper);
+  border: 3px solid var(--ink);
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 18px;
+}
+
+/* Helpful hint */
+.hint {
+  margin-top: auto;
+  padding-bottom: 26px;
+  text-align: center;
+  font-size: 18px;
+  opacity: 0.85;
+}
+
+/* Mobile */
+@media (max-width: 900px) {
+  .title {
+    top: 20px;
+    font-size: 44px;
+  }
+  .navBtn {
+    width: 62px;
+    height: 62px;
+    font-size: 28px;
+  }
+  .leftBtn {
+    left: 18px;
+  }
+  .rightBtn {
+    right: 18px;
+  }
+  .stage {
+    width: min(1040px, 86%);
+    height: 460px;        /* fixed card height */
+    position: relative;
+    margin-top: 120px;       /* pushes below title nicely */
+  }
+  .frontText {
+    font-size: 36px;
+  }
+  .backTitle {
+    font-size: 30px;
+  }
+  .backBlurb,
+  .bullets {
+    font-size: 20px;
+  }
+}
