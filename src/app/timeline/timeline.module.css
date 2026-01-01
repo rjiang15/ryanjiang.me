@@ -1,0 +1,384 @@
+/* Layout shell */
+.wrap {
+  height: 100%;
+  background: var(--green);
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  padding: 24px 24px;
+}
+
+.titleRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  padding: 10px 0 18px;
+}
+
+.h1 {
+  margin: 0;
+  font-size: 56px;
+}
+
+/* Scrollable area (stays inside the fixed content shell) */
+.scroller {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 6px 6px 26px;
+}
+
+/* Optional nicer scrollbar */
+.scroller::-webkit-scrollbar {
+  width: 10px;
+}
+.scroller::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 999px;
+}
+.scroller::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+}
+
+/* Timeline container */
+.timeline {
+  position: relative;
+  width: min(980px, 96%);
+  margin: 0 auto;
+  padding: 10px 0 40px;
+}
+
+/* Center vertical line */
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  background: var(--ink);
+  border-radius: 999px;
+  opacity: 0.9;
+  z-index: 1;
+}
+
+/* Each row has: left column | middle dot column | right column */
+.itemRow {
+  display: grid;
+  grid-template-columns: 1fr 120px 1fr;
+  align-items: center;
+  gap: 18px;
+  margin: 22px 0;
+  position: relative;
+}
+
+/* -----------------------------
+   CONNECTORS (fixed + stable)
+   -----------------------------
+   The middle column is 120px wide.
+   Its left edge is at 50% - 60px
+   Its right edge is at 50% + 60px
+*/
+:root {
+  --connector-len: 72px; /* tune if you want shorter/longer */
+}
+
+/* Base connector styling */
+.itemRow::before,
+.itemRow::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  height: 4px;
+  background: var(--ink);
+  border-radius: 999px;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+/* Left connector: position its RIGHT edge so it ends flush with the dot's left edge.
+   Right connector: start just past the dot's right edge.
+   Dot outer radius = (dot width 18px + 2*border 3px) / 2 = 12px, so use ±12px offsets. */
+.itemRow::before {
+  /* left edge set so the connector's right edge is at center - 12px */
+  left: calc(50% - var(--connector-len) - 8px);
+  width: 0px; /* enabled per-row */
+}
+
+.itemRow::after {
+  /* start just past the dot's right edge (center + 12px) */
+  left: calc(50% + 8px);
+  width: 0px; /* enabled per-row */
+}
+
+/* Enable only one connector depending on side */
+.rowLeft::before {
+  width: var(--connector-len);
+}
+.rowLeft::after {
+  width: 0px;
+}
+
+.rowRight::before {
+  width: 0px;
+}
+.rowRight::after {
+  width: var(--connector-len);
+}
+
+/* Dot column (dot always centered in this column) */
+.dotCol {
+  grid-column: 2;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  z-index: 2; /* above the center line */
+}
+
+.dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  border: 3px solid var(--ink);
+  background: var(--orange-light);
+  z-index: 3;
+}
+
+/* Cards */
+.card {
+  background: var(--orange-dark);
+  border: 3px solid var(--ink);
+  border-radius: 22px;
+  padding: 18px 18px;
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.03);
+}
+
+/* Left / Right placement */
+.leftCard {
+  grid-column: 1;
+  justify-self: end;
+}
+
+.rightCard {
+  grid-column: 3;
+  justify-self: start;
+}
+
+.cardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 26px;
+}
+
+.cardDate {
+  font-size: 16px;
+  opacity: 0.85;
+  white-space: nowrap;
+}
+
+.cardBlurb {
+  margin: 10px 0 14px;
+  font-size: 18px;
+  line-height: 1.35;
+  white-space: pre-wrap; /* preserve \n newlines */
+}
+
+.readMore {
+  background: var(--orange-light);
+  border: 3px solid var(--ink);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.readMore:hover {
+  filter: brightness(0.985);
+}
+
+/* ----- Modal overlay ----- */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  z-index: 50;
+  animation: overlayIn 160ms ease-out;
+}
+
+@keyframes overlayIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Modal container */
+.modal {
+  width: min(980px, 94%);
+  height: min(520px, 86%);
+  background: var(--orange-dark);
+  border: 3px solid var(--ink);
+  border-radius: 26px;
+  padding: 18px 18px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  animation: modalIn 220ms cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+
+@keyframes modalIn {
+  from {
+    transform: translateY(12px) scale(0.98);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.modalTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding: 6px 10px 0;
+}
+
+.modalTitle {
+  margin: 0;
+  font-size: 34px;
+}
+
+.modalDate {
+  font-size: 18px;
+  opacity: 0.85;
+  white-space: nowrap;
+}
+
+/* Inner “pillowed rectangle” content area */
+.modalInner {
+  flex: 1;
+  min-height: 0;
+  background: var(--orange-light);
+  border: 3px solid var(--ink);
+  border-radius: 22px;
+  padding: 18px;
+
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 18px;
+}
+
+/* Image frame: rounded, bordered, crops the image */
+.mediaFrame {
+  background: var(--paper);
+  border: 3px solid var(--ink);
+  border-radius: 22px;
+  overflow: hidden;
+  position: relative;
+  min-height: 100%;
+}
+
+.mediaImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Text area scrolls if long */
+.modalText {
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 6px;
+  font-size: 20px;
+  line-height: 1.35;
+}
+
+.modalText::-webkit-scrollbar {
+  width: 10px;
+}
+.modalText::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 999px;
+}
+.modalText::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+}
+
+.modalBottom {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 10px 6px;
+}
+
+.returnBtn {
+  background: var(--orange-light);
+  border: 3px solid var(--ink);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.returnBtn:hover {
+  filter: brightness(0.985);
+}
+
+/* Mobile: stack items, remove center line/dots/connectors */
+@media (max-width: 900px) {
+  .timeline::before {
+    left: 18px;
+    transform: none;
+  }
+
+  .itemRow {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .dotCol {
+    display: none;
+  }
+
+  .itemRow::before,
+  .itemRow::after {
+    display: none;
+  }
+
+  .leftCard,
+  .rightCard {
+    grid-column: 1;
+    justify-self: stretch;
+  }
+
+  .modalInner {
+    grid-template-columns: 1fr;
+  }
+
+  .mediaFrame {
+    height: 220px;
+    min-height: 220px;
+  }
+}
