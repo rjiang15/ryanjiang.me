@@ -1,6 +1,7 @@
 import "./globals.css"
 import type { Metadata } from "next"
 import Link from "next/link"
+import Image from "next/image"
 import { Patrick_Hand } from "next/font/google"
 
 const hand = Patrick_Hand({ subsets: ["latin"], weight: "400" })
@@ -41,20 +42,49 @@ function Footer() {
           className="footerBtn"
           href="https://github.com/rjiang15"
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
+          aria-label="GitHub"
         >
-          Git
+          <Image
+            src="/img/icons/github.svg"
+            alt="GitHub"
+            width={28}
+            height={28}
+            className="footerIcon"
+            unoptimized
+          />
         </a>
+
         <a
           className="footerBtn"
           href="https://www.linkedin.com/in/ryanjiang15"
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
+          aria-label="LinkedIn"
         >
-          LinkedIn
+          <Image
+            src="/img/icons/linkedin.png"
+            alt="LinkedIn"
+            width={28}
+            height={28}
+            className="footerIcon"
+            unoptimized
+          />
         </a>
-        <a className="footerBtn" href="mailto:ryanjiang@college.harvard.edu">
-          Email
+
+        <a
+          className="footerBtn"
+          href="mailto:ryanjiang@college.harvard.edu"
+          aria-label="Email"
+        >
+          <Image
+            src="/img/icons/email.png"
+            alt="Email"
+            width={28}
+            height={28}
+            className="footerIcon"
+            unoptimized
+          />
         </a>
       </div>
     </footer>
