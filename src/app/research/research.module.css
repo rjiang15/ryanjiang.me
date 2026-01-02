@@ -80,15 +80,15 @@
   will-change: transform;
 
   /* slightly bigger (95%) and keep the vertical nudge */
-  transform: translateY(50px) scale(0.95);
-  -webkit-transform: translateY(50px) scale(0.95);
+  transform: translateY(20px) scale(0.95);
+  -webkit-transform: translateY(20px) scale(0.95);
 }
 
 /* keep vendor-prefixed transform for flipped state */
 .cardFlipped {
   /* preserve the scale and vertical offset when flipped */
-  transform: translateY(50px) scale(0.95) rotateX(180deg);
-  -webkit-transform: translateY(50px) scale(0.95) rotateX(180deg);
+  transform: translateY(20px) scale(0.95) rotateX(180deg);
+  -webkit-transform: translateY(20px) scale(0.95) rotateX(180deg);
 }
 
 /* Wrapper for enter animations: base sizing + optional animation class */
@@ -161,7 +161,7 @@
 }
 
 .backTitle {
-  font-size: 34px;
+  font-size: 28px;
   margin: 0;
   font-weight: 700;
 }
@@ -174,7 +174,7 @@
 
 .backBlurb {
   margin: 0;
-  font-size: 22px;
+  font-size: 18px;
   font-style: italic;
   opacity: 0.95;
   line-height: 1.35;
@@ -185,7 +185,7 @@
   padding-left: 28px;        /* left padding for marker space */
   list-style-type: disc;     /* show bullets */
   list-style-position: outside;
-  font-size: 22px;
+  font-size: 16px;
   line-height: 1.3;
 }
 
@@ -239,7 +239,7 @@
 /* Helpful hint */
 .hint {
   margin-top: auto;
-  padding-bottom: 26px;
+  padding-bottom: 14px;
   text-align: center;
   font-size: 18px;
   opacity: 0.85;
